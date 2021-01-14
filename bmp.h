@@ -278,6 +278,15 @@ static void binarization_func(BMPFILE* bmp, BYTE threshold, FILE* fp)
 	int tmp = padding;
 	int gs; // gs stands for grayscale
 
+	if (threshold < 0) // for negative input, calculate the average as the sum of all pixels brightness divided by 2 to get a half
+	{
+		for (i = 0; i < bmp->bmiHeader.biHeight; i++)
+			for (j = 0; j < bmp->bmiHeader.biWidth; j++)
+				threshold += (bmp->rgb[i][j].rgbBlue + bmp->rgb[i][j].rgbGreen + bmp->rgb[i][j].rgbRed)
+
+		threshold /= 2;
+	}
+
 	for (i = 0; i < bmp->bmiHeader.biHeight; i++)
 	{
 		padding = tmp;
